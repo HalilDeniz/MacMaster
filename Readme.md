@@ -67,6 +67,17 @@ Here are some usage examples of the Mac Address Changer tool:
 
 Make sure to replace "eth0" and "wlan0" with the actual names of your network interfaces.
 
+## Contributing
+Contributions are welcome! To contribute to MacChanger, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Open a pull request in the main repository.
+
+
+
 ## Contact
 
 For any inquiries or further information, you can reach me through the following channels:
