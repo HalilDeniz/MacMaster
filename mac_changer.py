@@ -56,18 +56,21 @@ def validate_mac(mac_address):
 
 
 def change_mac(interface, new_mac):
-    print(f"Changing MAC address of {interface} to {new_mac}...")
+    print("\033[1;34m   Changing MAC address\033[0m")  # Bold Blue Text
+    print("\033[1;32mInterface:\033[0m", interface)  # Bold Green Text
+    print("\033[1;32mNew Mac:\033[0m", new_mac)  # Bold Green Text
     subprocess.call(["sudo", "ifconfig", interface, "down"])
     subprocess.call(["sudo", "ifconfig", interface, "hw", "ether", new_mac])
     subprocess.call(["sudo", "ifconfig", interface, "up"])
-    print("MAC address changed successfully.")
+    print("\033[1;35mMAC address changed successfully.\033[0m")  # Bold Magenta Text
 
 
 def validate_interface(interface):
     result = subprocess.run(["ifconfig", interface], capture_output=True, text=True)
     if result.returncode != 0:
-        print(f"Invalid interface: {interface}")
+        print("\033[1;31mInvalid interface:\033[0m", interface)  # Bold Red Text
         exit(1)
+
 
 
 def main():
@@ -95,16 +98,15 @@ def main():
         if validate_mac(new_mac):
             change_mac(args.interface, new_mac)
         else:
-            print("Invalid MAC address format. Please provide a valid MAC address.")
+            print("\033[1;31mInvalid MAC address format. Please provide a valid MAC address.\033[0m")
     elif args.reset:
         original_mac = get_original_mac(args.interface)
         if original_mac:
             change_mac(args.interface, original_mac)
-            print("MAC address reset to the original value.")
+            print("\033[1;32mMAC address reset to the original value.\033[0m")
         else:
-            print("Unable to reset the MAC address. Original MAC address not found.")
+            print("\033[1;31mUnable to reset the MAC address. Original MAC address not found.\033[0m")
+
 
 if __name__ == "__main__":
     main()
-
-
