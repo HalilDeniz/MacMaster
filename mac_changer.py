@@ -58,7 +58,7 @@ def validate_mac(mac_address):
 def change_mac(interface, new_mac):
     print("\033[1;34m   Changing MAC address\033[0m")  # Bold Blue Text
     print("\033[1;32mInterface:\033[0m", interface)  # Bold Green Text
-    print("\033[1;32mNew Mac:\033[0m", new_mac)  # Bold Green Text
+    print("\033[1;32mNew Mac  :\033[0m", new_mac)  # Bold Green Text
     subprocess.call(["sudo", "ifconfig", interface, "down"])
     subprocess.call(["sudo", "ifconfig", interface, "hw", "ether", new_mac])
     subprocess.call(["sudo", "ifconfig", interface, "up"])
