@@ -1,71 +1,56 @@
-# Mac Address Changer
+Elbette, aşağıda sadece bir örnektir, gerektiği gibi düzenleyin:
 
-The Mac Address Changer is a command-line tool designed to change the MAC address of a network interface. It provides a simple and convenient way to modify the MAC address for privacy, security, or network testing purposes.
+---
+
+# MAC Address Changer
+
+MAC Address Changer is a command line tool that allows you to change the MAC address of a network interface on your system.
 
 ## Features
 
-- Change the MAC address of a specific network interface.
-- Set a random MAC address for the interface.
-- Specify a specific MAC address to assign to the interface.
-- Verify and validate MAC address format.
-- Reset the interface to its original MAC address.
+- Set a specific MAC address.
+- Generate and set a random MAC address.
+- Reset MAC address to its original value.
 
-## Installation
+## Usage
 
-To install Mac Address Changer, you can simply clone the repository from GitHub:
+You can use the MAC Address Changer in three ways:
 
-```
-git clone https://github.com/HalilDeniz/MacChanger.git
-```
-## Getting Started
+1. Set a specific MAC address:
 
-To start using the Mac Address Changer tool, follow these steps:
-
-1. Open a terminal or command prompt.
-2. Navigate to the directory where the tool is installed.
-3. Run the following command to view the help menu:
-
-```
-┌──(root💀denizhalil)-[~/PycharmProjects/pythonProject1]
-└─# python3 mac_changer.py --help
-usage: mac_changer.py [-h] --interface INTERFACE (--random | --newmac NEWMAC | --reset)
-
-Mac Address Changer
-
-options:
-  -h, --help            show this help message and exit
-  --interface INTERFACE, -i INTERFACE
-                        Network interface to change MAC address
-  --random, -r          Set a random MAC address
-  --newmac NEWMAC, -nm NEWMAC
-                        Set a specific MAC address
-  --reset, -rs          Reset MAC address to the original value
-
-Example Uses:
-            python3 mac_changer.py -i eth0 -r
-            python3 mac_changer.py -i eth0 --reset
-            python3 mac_changer.py -i wlan0 -nm 00:11:22:33:44:55
+```bash
+python3 mac_changer.py -i eth0 -nm 00:11:22:33:44:55
 ```
 
-4. Review the available options and commands.
-5. Use the appropriate command to change the MAC address based on your requirements.
+2. Set a random MAC address:
 
-## Usage Examples
-
-Here are some usage examples of the Mac Address Changer tool:
-
-```
-# Set a random MAC address for the "eth0" interface
-1) python3 mac_changer.py -i eth0 -r
-
-# Assign a specific MAC address (00:11:22:33:44:55) to the "wlan0" interface
-2) python3 mac_changer.py -i wlan0 -nm 00:11:22:33:44:55
-
-# For the original mac address of the system
-3) python3 mac_changer.py -i eth0 --reset
+```bash
+python3 mac_changer.py -i eth0 -r
 ```
 
-Make sure to replace "eth0" and "wlan0" with the actual names of your network interfaces.
+3. Reset MAC address to its original value:
+
+```bash
+python3 mac_changer.py -i eth0 -rs
+```
+
+Where `eth0` is your network interface.
+
+## Arguments
+
+- `--interface` or `-i` : Specify the network interface.
+- `--random` or `-r` : Set a random MAC address.
+- `--newmac` or `-nm` : Set a specific MAC address.
+- `--reset` or `-rs` : Reset MAC address to the original value.
+
+## Note
+
+You must run this script as root or use sudo to run this script for it to work properly. This is because changing a MAC address requires root privileges.
+
+## Future Enhancements
+
+We're always open to improvements and new feature ideas. Please feel free to submit a pull request or open an issue for discussion.
+
 
 ## Contributing
 Contributions are welcome! To contribute to MacChanger, follow these steps:
