@@ -1,6 +1,6 @@
-# MacMaster : MAC Address Changer
+# MacMaster: MAC Address Changer
 
-MacMaster : MAC Address Changer is a command line tool that allows you to change the MAC address of a network interface on your system.
+MacMaster: MAC Address Changer is a command line tool that allows you to change the MAC address of a network interface on your system.
 
 ## Features
 
@@ -71,4 +71,4 @@ For any inquiries or further information, you can reach me through the following
 
 ## License
 
-Mac-MacMaster is released under the MIT License. See LICENSE for more information.
+MacMaster is released under the MIT License. See LICENSE for more information.
