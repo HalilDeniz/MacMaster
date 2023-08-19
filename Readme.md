@@ -1,10 +1,6 @@
-Elbette, aşağıda sadece bir örnektir, gerektiği gibi düzenleyin:
+# MacMaster : MAC Address Changer
 
----
-
-# MAC Address Changer
-
-MAC Address Changer is a command line tool that allows you to change the MAC address of a network interface on your system.
+MacMaster : MAC Address Changer is a command line tool that allows you to change the MAC address of a network interface on your system.
 
 ## Features
 
@@ -19,19 +15,19 @@ You can use the MAC Address Changer in three ways:
 1. Set a specific MAC address:
 
 ```bash
-python3 mac_changer.py -i eth0 -nm 00:11:22:33:44:55
+python3 macmaster.py -i eth0 -nm 00:11:22:33:44:55
 ```
 
 2. Set a random MAC address:
 
 ```bash
-python3 mac_changer.py -i eth0 -r
+python3 macmaster.py -i eth0 -r
 ```
 
 3. Reset MAC address to its original value:
 
 ```bash
-python3 mac_changer.py -i eth0 -rs
+python3 macmaster.py -i eth0 -rs
 ```
 
 Where `eth0` is your network interface.
@@ -53,7 +49,7 @@ We're always open to improvements and new feature ideas. Please feel free to sub
 
 
 ## Contributing
-Contributions are welcome! To contribute to MacChanger, follow these steps:
+Contributions are welcome! To contribute to MacMaster, follow these steps:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
@@ -75,4 +71,4 @@ For any inquiries or further information, you can reach me through the following
 
 ## License
 
-Mac-changer is released under the MIT License. See LICENSE for more information.
+Mac-MacMaster is released under the MIT License. See LICENSE for more information.
