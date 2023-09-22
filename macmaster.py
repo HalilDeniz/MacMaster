@@ -76,9 +76,9 @@ def validate_interface(interface):
 def main():
     parser = argparse.ArgumentParser(description='Mac Address Changer',
                                      epilog='''Example Uses:
-            python3 mac_changer.py -i eth0 -r
-            python3 mac_changer.py -i eth0 --reset
-            python3 mac_changer.py -i wlan0 -nm 00:11:22:33:44:55
+            python3 macmaster.py -i eth0 -r
+            python3 macmaster.py -i eth0 --reset
+            python3 macmaster.py -i wlan0 -nm 00:11:22:33:44:55
             ''', formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--interface", "-i", required=True, help="Network interface to change MAC address")
     group = parser.add_mutually_exclusive_group(required=True)
