@@ -9,7 +9,10 @@ MacMaster is a versatile command line tool designed to change the MAC address of
 - **Reset to Original:** Reset the MAC address to its original hardware value.
 - **Custom OUI:** Set a custom Organizationally Unique Identifier (OUI) for the MAC address.
 - **Version Information:** Easily check the version of MacMaster you are using.
-
+- **Network Interface Listing:** Easily list all available network interfaces.
+- **Interface Mode Switching:** Switch wireless network interfaces between 'managed' and 'monitor' modes.
+- **Network Services Reset:** Quickly reset networking services to apply changes or troubleshoot.
+- **Network Traffic Monitoring:** Monitor MAC traffic in real-time for analysis and security testing.
 
 ## **Installation**
 MacMaster requires Python 3.6 or later.
@@ -30,9 +33,10 @@ MacMaster requires Python 3.6 or later.
 
 ## Usage
 ```bash
-$ macmaster --help         
-usage: macmaster [-h] [--interface INTERFACE] [--version]
+$ macmaster 
+usage: macmaster [-h] [--interface INTERFACE] [--list-interfaces] [--version]
                  [--random | --newmac NEWMAC | --customoui CUSTOMOUI | --reset]
+                 [--mode {managed,monitor,master,auto,repeater}] [--restart-network] [--monitor-mac-traffic]
 
 MacMaster: Mac Address Changer
 
@@ -40,6 +44,8 @@ options:
   -h, --help            show this help message and exit
   --interface INTERFACE, -i INTERFACE
                         Network interface to change MAC address
+  --list-interfaces, -li
+                        List all network interfaces
   --version, -V         Show the version of the program
   --random, -r          Set a random MAC address
   --newmac NEWMAC, -nm NEWMAC
@@ -47,38 +53,56 @@ options:
   --customoui CUSTOMOUI, -co CUSTOMOUI
                         Set a custom OUI for the MAC address
   --reset, -rs          Reset MAC address to the original value
+  --mode {managed,monitor,master,auto,repeater}
+                        Change interface mode to managed or monitor
+  --restart-network, -rn
+                        Restart network services
+  --monitor-mac-traffic, -mmt
+                        Live Monitor Mac traffic
 ```
+
 ## Arguments
+- `--interface`, `-i`: Specify the network interface to be used for MAC address operations.
+- `--random`, `-r`: Generate and set a random MAC address on the specified interface.
+- `--newmac`, `-nm`: Set a specific MAC address on the specified interface.
+- `--customoui`, `-co`: Set a custom Organizationally Unique Identifier (OUI) for the MAC address on the specified interface.
+- `--reset`, `-rs`: Reset the MAC address of the specified interface to its original hardware value.
+- `--version`, `-V`: Show the current version of MacMaster.
+- `--list-interfaces`, `-li`: List all network interfaces available on the system.
+- `--mode`, `-m`: Change the mode of a wireless network interface (options include 'managed', 'monitor', 'master', 'auto', 'repeater').
+- `--restart-network`, `-rn`: Restart network services to apply changes or troubleshoot network issues.
+- `--monitor-mac-traffic`, `-mmt`: Monitor and display MAC traffic in real-time on the specified interface.
 
-- `--interface`, `-i`: Specify the network interface.
-- `--random`, `-r`: Set a random MAC address.
-- `--newmac`, `-nm`: Set a specific MAC address.
-- `--customoui`, `-co`: Set a custom OUI for the MAC address.
-- `--reset`, `-rs`: Reset MAC address to the original value.
-- `--version`, `-V`: Show the version of the program.
-
+### Examples
 
 1. **Set a specific MAC address:**
    ```bash
-   $ macmaster.py -i eth0 -nm 00:11:22:33:44:55
+   macmaster -i eth0 -nm 00:11:22:33:44:55
    ```
 2. **Set a random MAC address:**
    ```bash
-   $ macmaster.py -i eth0 -r
+   macmaster -i eth0 -r
    ```
 3. **Reset MAC address to its original value:**
    ```bash
-   $ macmaster.py -i eth0 -rs
+   macmaster -i eth0 -rs
    ```
-4. **Set a custom OUI:**
+4. **List all network interfaces:**
    ```bash
-   $ macmaster.py -i eth0 -co 08:00:27
+   macmaster -li
    ```
-5. **Show program version:**
+5. **Change interface mode:**
    ```bash
-   $ macmaster.py -V
+   macmaster -i eth0 -m monitor
    ```
-Replace `eth0` with your desired network interface.
+6. **Restart network services:**
+   ```bash
+   macmaster -rn
+   ```
+7. **Monitor MAC traffic in real-time:**
+   ```bash
+   macmaster -i eth0 -mmt
+   ```
 
 ## Note
 
