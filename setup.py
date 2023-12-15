@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='MacMaster: Advanced Network Interface Management and Monitoring',
-    version='1.0.0',
+    version='1.3.0',
     author='Halil İbrahim Deniz',
     author_email='halildeniz313@gmail.com',
     description='A versatile MAC Address Changer tool for network anonymity and testing.',
