@@ -5,15 +5,70 @@ import requests
 import argparse
 import netifaces
 import subprocess
-from scapy.all import sniff
+from scapy.all import sniff, IP, TCP, UDP
 from scapy.layers.inet import IP
 from colorama import Fore, Style, init
 
 from utils.version import __version__
+#from utils.update import check_for_updates
 
 
+init()
 
-init()  # Colorama'yı başlat
+def show_version():
+    print(f"MacMaster Version: {__version__}")
+
+def analyze_signal_strength(interface):
+    try:
+        iwconfig_output = subprocess.check_output(["iwconfig", interface], text=True)
+        # Sinyal gücü ve kalitesi için RegEx desenleri
+        signal_strength_pattern = r"Signal level=(-?\d+ dBm)"
+        quality_pattern = r"Link Quality=(\d+/\d+)"
+
+        signal_strength_match = re.search(signal_strength_pattern, iwconfig_output)
+        quality_match = re.search(quality_pattern, iwconfig_output)
+
+        if signal_strength_match:
+            signal_strength = signal_strength_match.group(1)
+            print(f"Signal Strength on {interface}: {signal_strength}")
+        else:
+            print(f"Could not determine signal strength on {interface}.")
+
+        if quality_match:
+            quality = quality_match.group(1)
+            print(f"Link Quality on {interface}: {quality}")
+        else:
+            print(f"Could not determine link quality on {interface}.")
+    except subprocess.CalledProcessError:
+        print(f"Failed to get signal information for {interface}. Make sure it's a wireless interface.")
+
+
+def get_ssid(interface):
+    try:
+        ssid_output = subprocess.check_output(["iwgetid", interface, "-r"], text=True)
+        ssid = ssid_output.strip()
+        if ssid:
+            print(f"{Fore.BLUE}Connected SSID on{Style.RESET_ALL} {interface}: {ssid}")
+        else:
+            print(f"No SSID found on {interface}.")
+    except subprocess.CalledProcessError:
+        print(f"{Fore.RED}Could not retrieve SSID for {interface}. Make sure it's a wireless interface.{Style.RESET_ALL}")
+
+def check_network_security(interface):
+    try:
+        scan_output = subprocess.check_output(["sudo", "iwlist", interface, "scan"], text=True)
+        security_patterns = {
+            "WEP": "Encryption key:on",
+            "WPA": "WPA Version",
+            "WPA2": "WPA2 Version"
+        }
+        for security_type, pattern in security_patterns.items():
+            if re.search(pattern, scan_output):
+                print(f"{security_type} security detected on {interface}.")
+                return
+        print(f"No recognized security protocols found on {interface}.")
+    except subprocess.CalledProcessError:
+        print(f"{Fore.RED}Could not scan {interface} for security protocols. Make sure it's a wireless interface.{Style.RESET_ALL}")
 
 
 def packet_callback(packet):
@@ -30,8 +85,25 @@ def start_traffic_monitoring(interface):
     print(f"{Fore.BLUE}Monitoring network traffic on{Style.RESET_ALL} {Fore.GREEN}{interface}...{Style.RESET_ALL}")
     sniff(iface=interface, prn=packet_callback, store=False)
 
-def show_version():
-    print(f"MacMaster Version: {__version__}")
+
+def packet_analysis_callback(packet):
+    if IP in packet:
+        ip_src = packet[IP].src
+        ip_dst = packet[IP].dst
+        protocol = packet.sprintf("%IP.proto%")
+
+        if TCP in packet or UDP in packet:
+            src_port = packet.sport
+            dst_port = packet.dport
+            print(f"{Fore.GREEN}Packet: {Style.RESET_ALL}{ip_src}:{src_port} {Fore.GREEN}==>{Style.RESET_ALL} {ip_dst}:{dst_port} {Fore.GREEN}| Protocol: {Style.RESET_ALL}{protocol}")
+        else:
+            print(f"{Fore.GREEN}Packet: {Style.RESET_ALL}{ip_src:<15}{Style.RESET_ALL} {Fore.GREEN}==>{Style.RESET_ALL} {ip_dst} {Fore.GREEN}| Protocol: {Style.RESET_ALL}{protocol}")
+
+
+def start_packet_analysis(interface):
+    print(f"{Fore.BLUE}Starting packet analysis on{Style.RESET_ALL} {Fore.GREEN}{interface}...{Style.RESET_ALL}")
+    sniff(iface=interface, prn=packet_analysis_callback, store=False)
+
 
 def list_network_interfaces():
     interfaces = netifaces.interfaces()
@@ -149,7 +221,7 @@ def validate_interface(interface):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='MacMaster: Mac Address Changer')
+    parser = argparse.ArgumentParser(description='MacMaster: Advanced Network Interface Management and Monitoring')
     parser.add_argument("--interface", "-i", help="Network interface to change MAC address")
     parser.add_argument("--list-interfaces", "-li", action="store_true", help="List all network interfaces")
     parser.add_argument("--version", "-V", action="store_true", help="Show the version of the program")
@@ -159,8 +231,13 @@ def main():
     group.add_argument("--customoui", "-co", type=str, help="Set a custom OUI for the MAC address")
     group.add_argument("--reset", "-rs", action="store_true", help="Reset MAC address to the original value")
     parser.add_argument("--mode", type=str, choices=['managed', 'monitor','master','auto','repeater'], help="Change interface mode to managed or monitor")
+    parser.add_argument("--get-ssid", action="store_true", help="Get the SSID of the wireless interface")
+    parser.add_argument("--check-security", action="store_true", help="Check the security protocol of the wireless interface")
+    parser.add_argument("--analyze-signal", action="store_true", help="Analyze the signal strength and quality of the wireless interface")
     parser.add_argument("--restart-network", "-rn", action="store_true", help="Restart network services")
     parser.add_argument("--monitor-mac-traffic", "-mmt", action="store_true", help="Live Monitor Mac traffic")
+    parser.add_argument("--analyze-packets", "-ap", action="store_true", help="Analyze network packets on the interface")
+
 
 
     args = parser.parse_args()
@@ -176,6 +253,27 @@ def main():
         exit()
     if args.monitor_mac_traffic:
         start_traffic_monitoring(args.interface)
+    if args.get_ssid:
+        if args.interface:
+            get_ssid(args.interface)
+        else:
+            print("Please specify an interface with --interface to get its SSID.")
+    if args.check_security:
+        if args.interface:
+            check_network_security(args.interface)
+        else:
+            print("Please specify an interface with --interface to check its security protocol.")
+    if args.analyze_signal:
+        if args.interface:
+            analyze_signal_strength(args.interface)
+        else:
+            print("Please specify an interface with --interface to analyze its signal strength.")
+    if args.analyze_packets:
+        if args.interface:
+            start_packet_analysis(args.interface)
+        else:
+            print("Please specify an interface with --interface to analyze packets.")
+
 
     if not args.interface:
         parser.print_help()
