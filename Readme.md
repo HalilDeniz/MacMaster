@@ -34,12 +34,13 @@ MacMaster requires Python 3.6 or later.
 
 ## Usage
 ```bash
-$ macmaster 
-usage: macmaster [-h] [--interface INTERFACE] [--list-interfaces] [--version]
-                 [--random | --newmac NEWMAC | --customoui CUSTOMOUI | --reset]
-                 [--mode {managed,monitor,master,auto,repeater}] [--restart-network] [--monitor-mac-traffic]
+$ macmaster.py --help
+usage: macmaster.py [-h] [--interface INTERFACE] [--list-interfaces] [--version]
+                    [--random | --newmac NEWMAC | --customoui CUSTOMOUI | --reset]
+                    [--mode {managed,monitor,master,auto,repeater}] [--get-ssid] [--check-security]
+                    [--analyze-signal] [--restart-network] [--monitor-mac-traffic] [--analyze-packets]
 
-MacMaster: Mac Address Changer
+MacMaster: Advanced Network Interface Management and Monitoring
 
 options:
   -h, --help            show this help message and exit
@@ -56,10 +57,15 @@ options:
   --reset, -rs          Reset MAC address to the original value
   --mode {managed,monitor,master,auto,repeater}
                         Change interface mode to managed or monitor
+  --get-ssid            Get the SSID of the wireless interface
+  --check-security      Check the security protocol of the wireless interface
+  --analyze-signal      Analyze the signal strength and quality of the wireless interface
   --restart-network, -rn
                         Restart network services
   --monitor-mac-traffic, -mmt
                         Live Monitor Mac traffic
+  --analyze-packets, -ap
+                        Analyze network packets on the interface
 ```
 
 ## Arguments
@@ -73,6 +79,10 @@ options:
 - `--mode`, `-m`: Change the mode of a wireless network interface (options include 'managed', 'monitor', 'master', 'auto', 'repeater').
 - `--restart-network`, `-rn`: Restart network services to apply changes or troubleshoot network issues.
 - `--monitor-mac-traffic`, `-mmt`: Monitor and display MAC traffic in real-time on the specified interface.
+- `--get-ssid`, `-gs`: Display the SSID of the connected Wi-Fi network.
+- `--analyze-signal`, `-as`: Analyze the signal strength and quality of the wireless interface.
+- `--check-security`, `-cs`: Check the security protocol of the wireless interface.
+- `--analyze-packets`, `-ap`: Analyze network packets on the interface.
 
 ### Examples
 
